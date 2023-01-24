@@ -1,8 +1,8 @@
-Defines a `logging.Handler` child class used to send logs
-to a Zabbix server via the trapper functionality.
-NB that to make use of this handler a Trapper-type item 
-must be preconfigured on the Zabbix server. See
-https://www.zabbix.com/documentation/current/en/manual/config/items/itemtypes/trapper
+Defines a `logging.Handler` child class used to send logs to a Zabbix server via the trapper functionality.
+
+NB that to make use of this handler a Trapper-type item must be preconfigured on the Zabbix server. See
+https://www.zabbix.com/documentation/current/en/manual/config/items/itemtypes/trapper.
+
 The key entered will be used to initialise the handler so make sure to note it down.
 
 
@@ -22,9 +22,11 @@ Usage
 
 License
 
-Copyright © 2023 Sierra Anderson <wheresheisnt@gmail.com>. 
+Copyright © 2023 Sierra Anderson <wheresheisnt@gmail.com>.
+
 This program is free software. It comes without any warranty, to
 the extent permitted by applicable law. You can redistribute it
 and/or modify it under the terms of the Do What The Fuck You Want
-To Public License, Version 2, as published by Sam Hocevar. See
-http://www.wtfpl.net/ or the LICENSE file for more details.
+To Public License, Version 2, as published by Sam Hocevar. 
+
+See http://www.wtfpl.net/ or the LICENSE file for more details.

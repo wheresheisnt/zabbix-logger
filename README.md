@@ -5,8 +5,14 @@ https://www.zabbix.com/documentation/current/en/manual/config/items/itemtypes/tr
 
 The key entered will be used to initialise the handler so make sure to note it down.
 
+**Installing**
 
-Usage
+PyPi/pip option coming soon, once I have a good CI/CD routine setup.
+
+In the meantime, clone the repository & rip `ZabbixHandler.py` into your own codebase.
+
+
+**Usage**
 ```
 >>> import logging
 >>> from zabbix-logger import ZabbixHandler
@@ -20,7 +26,7 @@ Usage
 ... # log things as per usual!
 ```
 
-License
+**License**
 
 Copyright © 2023 Sierra Anderson <wheresheisnt@gmail.com>.
 

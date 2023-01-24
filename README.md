@@ -1,3 +1,6 @@
+# WARNING: CURRENTLY UNTESTED DUE TO MY LINUX SERVER BEING IN A CARDBOARD BOX. NOT FIT FOR PRODUCTION USE, BUT DO FILE ISSUES/PRs IF YOU TRY IT.
+
+
 Defines a `logging.Handler` child class used to send logs to a Zabbix server via the trapper functionality.
 
 NB that to make use of this handler a Trapper-type item must be preconfigured on the Zabbix server. See
@@ -5,14 +8,14 @@ https://www.zabbix.com/documentation/current/en/manual/config/items/itemtypes/tr
 
 The key entered will be used to initialise the handler so make sure to note it down.
 
-**Installing**
+### Installing
 
 PyPi/pip option coming soon, once I have a good CI/CD routine setup.
 
 In the meantime, clone the repository & rip `ZabbixHandler.py` into your own codebase.
 
 
-**Usage**
+### Usage
 ```
 >>> import logging
 >>> from zabbix-logger import ZabbixHandler
@@ -26,7 +29,7 @@ In the meantime, clone the repository & rip `ZabbixHandler.py` into your own cod
 ... # log things as per usual!
 ```
 
-**License**
+### Copyright
 
 Copyright © 2023 Sierra Anderson <wheresheisnt@gmail.com>.
 

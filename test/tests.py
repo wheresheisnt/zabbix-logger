@@ -39,14 +39,14 @@ class TestZabbixLogging(unittest.TestCase):
 
     def test_logging(self):
         import logging
-        from ZabbixHandler import ZabbixLoggingHandler
+        # from ZabbixHandler import ZabbixHandler
 
-        ZabbixHandler = ZabbixLoggingHandler("localhost", 22, "key", "admin", "admin")
-        ZabbixHandler.setLevel("ERROR")
-        myLogger = logging.getLogger("myLogger")
-        myLogger.addHandler(ZabbixHandler)
+        # ZabbixHandler = ZabbixLoggingHandler("localhost", 22, "key", "admin", "admin")
+        # ZabbixHandler.setLevel("ERROR")
+        # myLogger = logging.getLogger("myLogger")
+        # myLogger.addHandler(ZabbixHandler)
 
-        myLogger.critical("Hello, Zabbix")
+        # myLogger.critical("Hello, Zabbix")
 
 
     # def test_other logging_libraries

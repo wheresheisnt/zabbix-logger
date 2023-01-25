@@ -12,7 +12,7 @@ Usage
 >>> import logging
 >>> from ZabbixHandler import ZabbixHandler
 
->>> ZabbixHandler = ZabbixTrapperHandler(ip, port, key, zabbix_username, zabbix_password)
+>>> ZabbixHandler = ZabbixHandler(ip, port, key, zabbix_username, zabbix_password)
 ... # the credentials used must belong to a user that is in the API Access group!
 >>> ZabbixHandler.setLevel("ERROR")
 
@@ -35,7 +35,7 @@ http://www.wtfpl.net/ or the LICENSE file for more details.
 # TODO handle type hinting etc in older versions of python
 from logging import Handler, LogRecord
 from http.client import HTTPConnection
-from struct import Struct
+from struct import pack
 import json
 
 class ZabbixHandler(Handler):
@@ -48,11 +48,12 @@ class ZabbixHandler(Handler):
 
     """
     def __init__(self, ip: str, port: int, key: str, zabbix_username: str, zabbix_password: str) -> None:
-        super().__init__(self)
+        Handler.__init__(self)
         self.z_ip = ip
         self.z_port = port
         self.z_username = zabbix_username
         self.z_password = zabbix_password
+        self.z_auth_key = None
         self.key = key
         try:
             self.connection = HTTPConnection(self.z_ip, self.z_port, 60)
@@ -62,7 +63,7 @@ class ZabbixHandler(Handler):
 
     def _login(self) -> None:
         data = json.dumps({"jsonrpc": "2.0", "method": "user.login",  "params": {"username": self.z_username, "password": self.z_password}, "id": 1})
-        packet = b"ZBXD\1" + Struct.pack("<II", len(data), 0) + data
+        packet = b"ZBXD\1" + pack("<II", len(data), 0) + data.encode('utf-8')
         self.connection.request("PUT", "/", packet)
         response = self.connection.getresponse()
         self.z_auth_key = response.read()["result"]
@@ -70,7 +71,7 @@ class ZabbixHandler(Handler):
 
     def _logout(self) -> None:
         data = json.dumps({"jsonrpc": "2.0", "method": "user.logout", "params": [], "id": 1, "auth": self.z_auth_key})
-        packet = b"ZBXD\1" + Struct.pack("<II", len(data), 0) + data
+        packet = b"ZBXD\1" + pack("<II", len(data), 0) + data.encode('utf-8')
         self.connection.request("PUT", "/", packet)
         response = self.connection.getresponse()
         returnedData = json.load(response.read())
@@ -89,7 +90,7 @@ class ZabbixHandler(Handler):
             """<hostname> test value record.?"""
             self._login()
             data = json.dumps({"request":"sender data","data":[{"host":record.pathname, "key":self.key, "value":record.getMessage()}]})
-            packet = b"ZBXD\1" + Struct.pack("<II", len(data), 0) + data
+            packet = b"ZBXD\1" + pack("<II", len(data), 0) + data.encode('utf-8')
             self.connection.request("PUT", "/", packet)
             response = self.connection.getresponse()
             response.read() # free up the buffer for future use
@@ -115,3 +116,19 @@ class ZabbixHandler(Handler):
         # close & clean up connection to Zabbix server
         self._logout()
         super().close()
+
+
+def main():
+    import logging
+    from ZabbixHandler import ZabbixHandler
+    try:
+        ZabbixHandler = ZabbixHandler("localhost", 1, "1", "1234", "1234")
+        # the credentials used must belong to a user that is in the API Access group!
+        ZabbixHandler.setLevel("ERROR")
+        myLogger = logging.getLogger("myLogger")
+        myLogger.addHandler(ZabbixHandler)
+    except:
+        raise
+
+if __name__ == "__main__":
+    main()
